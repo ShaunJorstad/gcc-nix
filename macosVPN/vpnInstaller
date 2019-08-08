@@ -1,0 +1,105 @@
+#!/bin/bash
+# author: Shaun Jorstad
+# installs GCC Student and Library VPNs on *nix OSs. Currently only supporting MacOS
+
+#fetches proper sequences for colored text 
+bold=$(tput bold)
+normal=$(tput sgr0)
+fgGreen=$(tput setaf 2)
+fgBlue=$(tput setaf 4)
+fgRed=$(tput setaf 1)
+
+# fetches OS
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machineOS=Linux;;
+    Darwin*)    machineOS=Mac;;
+    *)          machineOS="UNKNOWN:${unameOut}"
+esac
+
+
+# fetches script directory. which resolves incorrect working directory after double clicking script in MacOS
+scriptDirectory=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "${scriptDirectory}"
+
+echo 'This script will install the GCC Student VPN for MacOS and Linux'
+
+echo "Your username is the same as your gcc edu email without the domain"
+echo "example email:         ${fgBlue}smithJA17@gcc.edu${normal}"
+echo "example's username:    ${fgBlue}smithja17${normal}"
+echo ""
+
+echo "enter your username and press [ENTER]: ${fgBlue}"
+read username
+echo "${normal}"
+
+echo "enter the password to unlock your GCC issued laptop and press [ENTER]: ${fgBlue}"
+read -s password
+echo "${normal}"
+
+echo "to Verify your password please enter it again and press [ENTER]: ${fgBlue}"
+read -s passwordVerified
+echo "${normal}"
+
+passwordAttempts=1
+
+#prompts user repeatedly for passowrd & password verification. Script will terminate on the third incorrect input
+while [ $password != $passwordVerified ]
+do
+	echo "${fgRed}Passwords didn't match. Please try again. ${normal}"
+
+	echo "enter the password to unlock your GCC issued laptop and press [ENTER]: ${fgBlue}"
+	read -s password
+	echo "${normal}"
+
+	echo "to Verify your password please enter it again and press [ENTER]: ${fgBlue}"
+	read -s passwordVerified
+	echo "${normal}"
+	
+	(( passwordAttempts +=1 ))	
+
+	if [ $passwordAttempts == "3" ]
+	then
+		echo "${fgRed}too many verification failures. Exiting script ${normal}"
+		exit
+	fi	
+done
+
+
+#######################
+#        Linux 
+#######################
+
+if [ $machineOS == Linux  ]
+then
+	# TODO:
+	echo "This script is currently unable to install the vpn on Linux OSs. Contact the helpdesk for more information on when this feature will be available."
+fi
+
+#######################
+#        MacOS 
+#######################
+if [ $machineOS == Mac ]
+then
+	echo "${fgGreen}==> Configuring VPN settings"
+	cp gccVPNprofile.mobileconfig ~/tempVPNconfig.mobileconfig
+	echo "    ==> copied template config file"
+	sed -i -e "s/GccUsername/${username}/g" ~/tempVPNconfig.mobileconfig
+	echo "    ==> injected username into config file"
+	sed -i -e "s/GccPassword/${password}/g" ~/tempVPNconfig.mobileconfig
+	echo "    ==> injected password into config file"
+
+	echo "${normal}enter the password that unlocks this laptop and press [ENTER]: ${fgBlue}"
+	sudo profiles -R -p gccVPNs
+	echo "${fgGreen}==> uninstalled old vpn configuration"
+	sudo profiles -I -F ~/tempVPNconfig.mobileconfig
+	echo "==> installed Student VPN"
+
+	rm ~/tempVPNconfig.mobileconfig
+	rm ~/tempVPNconfig.mobileconfig-e
+	echo "==> deleted configuration file ${normal}"
+	
+	# enables 'show vpns in status bar option'
+	defaults write com.apple.systemuiserver menuExtras -array-add "/System/Library/CoreServices/Menu Extras/vpn.menu"
+	killall SystemUIServer -HUP
+fi

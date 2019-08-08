@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>IPSec</key>
+			<dict>
+				<key>AuthenticationMethod</key>
+				<string>SharedSecret</string>
+				<key>LocalIdentifierType</key>
+				<string>KeyID</string>
+				<key>SharedSecret</key>
+				<data>
+				Z2NjVlBOZXQ=
+				</data>
+			</dict>
+			<key>IPv4</key>
+			<dict>
+				<key>OverridePrimary</key>
+				<integer>1</integer>
+			</dict>
+			<key>PPP</key>
+			<dict>
+				<key>AuthName</key>
+				<string>GccUsername</string>
+				<key>AuthPassword</key>
+				<string>GccPassword</string>
+				<key>CommRemoteAddress</key>
+				<string>StudentVPN.GCC.EDU</string>
+			</dict>
+			<key>PayloadDescription</key>
+			<string>Configures VPN settings</string>
+			<key>PayloadDisplayName</key>
+			<string>VPN</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.vpn.managed.672C7D15-0BCD-40D9-98C3-100B22C42932</string>
+			<key>PayloadType</key>
+			<string>com.apple.vpn.managed</string>
+			<key>PayloadUUID</key>
+			<string>672C7D15-0BCD-40D9-98C3-100B22C42932</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>Proxies</key>
+			<dict>
+				<key>HTTPEnable</key>
+				<true/>
+				<key>HTTPPort</key>
+				<integer>8080</integer>
+				<key>HTTPProxy</key>
+				<string>proxy.gcc.edu</string>
+				<key>HTTPProxyPassword</key>
+				<string>GccPassword</string>
+				<key>HTTPProxyUsername</key>
+				<string>GccUsername</string>
+				<key>HTTPSEnable</key>
+				<true/>
+				<key>HTTPSPort</key>
+				<integer>8080</integer>
+				<key>HTTPSProxy</key>
+				<string>proxy.gcc.edu</string>
+			</dict>
+			<key>UserDefinedName</key>
+			<string>GccStudent</string>
+			<key>VPNType</key>
+			<string>L2TP</string>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Installs the GCC Student VPN</string>
+	<key>PayloadDisplayName</key>
+	<string>TestProfile</string>
+	<key>PayloadIdentifier</key>
+	<string>gccVPNs</string>
+	<key>PayloadOrganization</key>
+	<string>Grove City College TLC Helpdesk</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>85AA9988-5930-4C91-948F-10096CB4C9B7</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

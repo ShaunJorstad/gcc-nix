@@ -1,0 +1,80 @@
+#!/bin/bash
+# author: Shaun Jorstad
+#Script installs black & white and Color print queues for linux and unix machines. Cups (backend printing service) will remove any print queue already existing under the provided name. 
+
+# fetches proper sequence for bold text 
+bold=$(tput bold)
+normal=$(tput sgr0)
+fgGreen=$(tput setaf 2)
+fgBlue=$(tput setaf 4)
+
+# fetches OS
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machineOS=Linux;;
+    Darwin*)    machineOS=Mac;;
+    *)          machineOS="UNKNOWN:${unameOut}"
+esac
+
+# fetches script directory. which resolves incorrect working directory after double clicking script in MacOS
+scriptDirectory=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "${scriptDirectory}"
+
+echo "This script will install the GCCBW and GCCColor print queues on *nix OS's."
+echo "This script requires that CUPS is installed. to check if this is the case open CUPS configuration page at ${bold}[http://localhost:631/]${normal} in your web browser."
+echo ""
+
+echo "Your username is the same as your gcc edu email without the domain"
+echo "example email:         ${fgBlue}smithJA17@gcc.edu${normal}"
+echo "example's username:    ${fgBlue}smithja17${normal}"
+echo ""
+
+echo "enter your username and press [ENTER]: ${fgBlue}"
+read username
+echo "${normal}"
+
+#######################
+#        Linux 
+#######################
+
+if [ $machineOS == Linux  ]
+then
+		#Deletes current printers labeled as GCCBW and GCCColor
+		/usr/sbin/lpadmin -x GCCBW
+		/usr/sbin/lpadmin -x GCCColor
+		echo "${fgGreen}==> Uninstalling current GCCBW and GCCColor printers"
+
+		#Installs GCCBW queue
+		echo "==> Installing GCCBW"
+		/usr/sbin/lpadmin -p GCCBW -E -v lpd://$username@10.202.100.36/GCCBW -P GCCBW_Linux.ppd
+
+		#Installs GCCColor queue
+		echo "==> Installing GCCColor"
+		/usr/sbin/lpadmin -p GCCColor -E -v lpd://$username@10.202.100.36/GCCColor -P GCCColor_Linux.ppd
+
+		echo ""
+		echo "${normal}GCCBW and GCCColor print queues successfully installed for user ${fgBlue}${username}"
+fi
+
+#######################
+#        MacOS 
+#######################
+if [ $machineOS == Mac ]
+then
+		#Deletes current printers labeled as GCCBW and GCCColor
+		/usr/sbin/lpadmin -x GCCBW
+		/usr/sbin/lpadmin -x GCCColor
+		echo "${fgGreen}==> Uninstalling current GCCBW and GCCColor printers"
+
+		#Installs GCCBW queue
+		echo "==> Installing GCCBW"
+		/usr/sbin/lpadmin -p GCCBW -E -v lpd://$username@10.202.100.36/GCCBW -P GCCBW_Unix.ppd
+
+		#Installs GCCColor queue
+		echo "==> Installing GCCColor"
+		/usr/sbin/lpadmin -p GCCColor -E -v lpd://$username@10.202.100.36/GCCColor -P GCCColor_Unix.ppd
+
+		echo ""
+		echo "${normal}GCCBW and GCCColor print queues successfully installed for user ${fgBlue}${username}"
+
+fi
