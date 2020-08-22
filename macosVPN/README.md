@@ -5,5 +5,8 @@
 This script will install the GCC Student and Library VPNs. 
 
 ## Installation
-On MacOS, control click on the vpnInstaller script and choose open. (Because the script is not signed as a trusted developer you MUST control click on it. )
+Control click on the vpnInstaller script and choose open. (Because the script is not signed as a trusted developer you MUST control click on it or run from terminal )
 - to install the VPNs you must have root access to this computer, as commands will be elevated as `sudo`
+- read instructions carefully. 
+
+I cannot verify the validity of your O365 account password. If the vpn fails to connect try running the script again.
