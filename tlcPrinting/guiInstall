@@ -1,0 +1,14 @@
+#!/bin/bash
+
+username=$1
+
+echo $username
+
+/usr/sbin/lpadmin -x GCCBW
+/usr/sbin/lpadmin -x GCCColor
+
+#Installs GCCBW queue
+/usr/sbin/lpadmin -p GCCBW -E -v lpd://$username@10.202.100.36/GCCBW -P GCCBW_Unix.ppd
+
+#Installs GCCColor queue
+The /usr/sbin/lpadmin -p GCCColor -E -v lpd://$username@10.202.100.36/GCCColor -P GCCColor_Unix.ppd
