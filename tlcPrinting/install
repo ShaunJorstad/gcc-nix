@@ -77,4 +77,8 @@ then
 		echo ""
 		echo "${normal}GCCBW and GCCColor print queues successfully installed for user ${fgBlue}${username}"
 
+		echo "Apple invalidated these old hp drivers. The first time you print you will need to open the print queue and choose to update the drivers"
+		sudo rm -rf /Library/Printers/hp
+
+		echo "finished installation"
 fi
