@@ -76,5 +76,5 @@ then
 
 		echo ""
 		echo "${normal}GCCBW and GCCColor print queues successfully installed for user ${fgBlue}${username}"
-
+		sudo rm -rf /Library/Printers/hp
 fi
