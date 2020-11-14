@@ -64,7 +64,7 @@ then
 		#Deletes current printers labeled as GCCBW and GCCColor
 		/usr/sbin/lpadmin -x GCCBW
 		/usr/sbin/lpadmin -x GCCColor
-		echo "${fgGreen}==> Uninstalling current GCCBW and GCCColor printers"
+		echo "${fgGreen}==> Removing old printer profiles"
 
 		#Installs GCCBW queue
 		echo "==> Installing GCCBW"
@@ -74,7 +74,12 @@ then
 		echo "==> Installing GCCColor"
 		/usr/sbin/lpadmin -p GCCColor -E -v lpd://$username@10.202.100.36/GCCColor -P GCCColor_Unix.ppd
 
-		echo ""
-		echo "${normal}GCCBW and GCCColor print queues successfully installed for user ${fgBlue}${username}"
+		echo "${normal}Removing existing HP Drivers"
+		echo "Enter password to current laptop"
 		sudo rm -rf /Library/Printers/hp
+		echo "${normal}Downloading HP printer drivers"
+		curl -L -o hpInstall.pkg https://www.dropbox.com/s/rqrjc78uuff93ug/hp-printer-essentials-S-5_15_5_12.pkg\?dl\=0
+		echo "Launching hp printer installer"
+		open ./hpInstall.pkg
+		echo "${normal}GCCBW and GCCColor print queues successfully installed for user ${fgBlue}${username}"
 fi
